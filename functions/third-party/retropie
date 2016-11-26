@@ -25,7 +25,7 @@ function retropie {
 	show_info "Running RetroPie setup..."
 	show_warning 'Requires root privileges'
 	sudo ./retropie_setup.sh
-	show_success 'Done.'
+	show_success 'RetroPie setup complete.'
 	# Done
 	whiptail --title "Finished" --msgbox "Installation of $NAME complete." 8 78
 	thirdparty
