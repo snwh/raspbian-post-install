@@ -1,10 +1,34 @@
 #!/bin/bash
 
+dir="$(dirname "$0")"
+
+PURGED="$dir/data/purge.list"
+
+# Remove unused/unwanted packages that are listed in 'data/purge.list'
+function purge {
+	if (eval `resize` && whiptail \
+		--title "Remove Un-used Pre-installed Applications" \
+		--yesno "Current list of pre-installed applications to remove: \n\n$(cat $PURGED) \n\nAre you sure you want proceed?" \
+		$LINES $COLUMNS $(( $LINES - 12 )) \
+		--scrolltext ) then
+		show_info 'Removing unused pre-installed applications...'
+		show_warning 'Requires root privileges'
+		sudo apt-get remove -y --purge $(cat $PURGED)
+		show_success 'Done.'
+		# Done
+		show_success 'Done.'
+		whiptail --title "Finished" --msgbox "Your list of unwanted pre-installed applications have been removed." 8 78
+		cleanup
+	else
+		cleanup
+	fi
+}
+
 # Remove Orphaned Packages
 function orphaned {
 	show_info 'Removing orphaned packages...'
 	show_warning 'Requires root privileges'
-	sudo apt autoremove -y
+	sudo apt-get autoremove -y
 	show_success 'Done.'
 	whiptail --title "Finished" --msgbox "Orphaned packages have been successfully removed." 8 78
 	cleanup
@@ -21,11 +45,11 @@ function leftovers {
 	cleanup
 }
 
-# Clean apt cache
+# Clean apt-get cache
 function clean-cache {
 	show_info 'Cleaning package cache...'
 	show_warning 'Requires root privileges'
-	sudo apt clean
+	sudo apt-get clean
 	show_success 'Done.'
 	whiptail --title "Finished" --msgbox "Package cache has been cleaned." 8 78
 	cleanup
@@ -40,9 +64,10 @@ function cleanup {
 		--menu "\nWhat would you like to do?" \
 		--cancel-button "Go Back" \
 		$LINES $COLUMNS $(( $LINES - 12 )) \
-		clean-cache	'Clean package cache' \
-		leftovers	'Remove leftover configuration files' \
+		purge		'Remove unused pre-installed packages' \
 		orphaned	'Remove orphaned packages' \
+		leftovers	'Remove leftover configuration files' \
+		clean-cache	'Clean package cache' \
 		3>&1 1>&2 2>&3)
 	 
 	exitstatus=$?

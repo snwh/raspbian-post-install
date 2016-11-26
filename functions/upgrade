@@ -2,14 +2,12 @@
 
 # Perform Raspberry Pi firmware upgrade
 function upgrade {
-	if (whiptail --title "Raspberry Pi Firmware Upgrade" --yesno "Proceed with system update?" 10 60) then
-		# Update repository information
+	if (whiptail --title "Raspberry Pi Firmware Upgrade" --yesno "The Raspberry Pi firmware updater requires you to reboot your Raspberry Pi. \n\nAre you sure you want proceed?" 10 60) then
+		# Update firmware
 		show_info 'Updating firmware...'
 		show_warning 'Requires root privileges'
 		sudo rpi-update
 		show_success 'Done.'
-		# Check
-		EXITSTATUS=$1
 		if [[ $EXITSTATUS != 0 ]]; then
 			# Already up-to-date
 			show_success 'Already up-to-date.'

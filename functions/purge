@@ -13,7 +13,11 @@ function purge {
 		--scrolltext ) then
 		show_info 'Removing unused pre-installed applications...'
 		show_warning 'Requires root privileges'
-		sudo apt remove -y --purge $(cat $PURGED)
+		sudo apt-get remove -y --purge $(cat $PURGED)
+		show_info 'Removing any now-orphaned packages...'
+		show_warning 'Requires root privileges'
+		sudo apt-get autoremove -y
+		show_success 'Done.'
 		# Done
 		show_success 'Done.'
 		whiptail --title "Finished" --msgbox "Your list of unwanted pre-installed applications have been removed." 8 78

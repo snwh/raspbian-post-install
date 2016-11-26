@@ -33,7 +33,6 @@ dir="$(dirname "$0")"
 . $dir/functions/cleanup
 . $dir/functions/configure
 . $dir/functions/favs
-. $dir/functions/purge
 . $dir/functions/thirdparty
 . $dir/functions/update
 . $dir/functions/upgrade
@@ -78,7 +77,6 @@ function main {
 		thirdparty	'Install third-party applications' \
 		configure	'Configure system' \
 		cleanup		'Cleanup the system' \
-		purge		'Remove unused pre-installed packages' \
 		3>&1 1>&2 2>&3)
 	 
 	exitstatus=$?
