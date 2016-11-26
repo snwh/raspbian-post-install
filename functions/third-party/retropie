@@ -12,13 +12,16 @@ function retropie {
 	show_warning 'Requires root privileges'
 	sudo apt-get -y install ${DEPS[*]}
 	show_success 'Done.'
-	# Git Clone
-	cd
-	show_info "Cloning RetroPie repository..."
-	git clone --depth=1 https://github.com/RetroPie/RetroPie-Setup.git
-	show_success 'Done.'
+	# Check if RetroPie repository is already cloned
+	if [ ! -d "$HOME/RetroPie-Setup" ]; then
+		# Git Clone
+		cd $HOME
+		show_info "Cloning RetroPie repository..."
+		git clone --depth=1 https://github.com/RetroPie/RetroPie-Setup.git
+		show_success 'Done.'
+	fi
 	# Enter repo directory 
-	cd RetroPie-Setup
+	cd $HOME/RetroPie-Setup
 	# Make setup script executable
 	chmod +x retropie_setup.sh
 	# Run Setup
