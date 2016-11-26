@@ -30,8 +30,6 @@ function check_dependencies {
 		[Yy]* ) 
 			show_warning 'Requires root privileges'
 			sudo apt-get -y install $package
-			# Failure check
-			check_fail
 			show_success "Package '$package' installed. Proceeding."
 			;;
 		# Negative action
