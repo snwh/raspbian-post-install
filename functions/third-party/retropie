@@ -1,0 +1,32 @@
+#!/bin/bash
+
+# RetroPie
+function retropie {
+	# Variables
+	NAME="RetroPie"
+	DEPS=(git dialog)
+	# Install
+	show_header 'Begin '$NAME' installation'
+	# Install dependencies
+	show_info "RetroPie requires some installation dependencies: ${DEPS[*]}. Installing..."
+	show_warning 'Requires root privileges'
+	sudo apt-get -y install ${DEPS[*]}
+	show_success 'Done.'
+	# Git Clone
+	cd
+	show_info "Cloning RetroPie repository..."
+	git clone --depth=1 https://github.com/RetroPie/RetroPie-Setup.git
+	show_success 'Done.'
+	# Enter repo directory 
+	cd RetroPie-Setup
+	# Make setup script executable
+    chmod +x retropie_setup.sh
+    # Run Setup
+	show_info "Running RetroPie setup..."
+	show_warning 'Requires root privileges'
+    sudo ./retropie_setup.sh
+	show_success 'Done.'
+	# Done
+	whiptail --title "Finished" --msgbox "Installation of $NAME complete." 8 78
+	thirdparty
+}

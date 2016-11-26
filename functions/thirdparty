@@ -2,6 +2,8 @@
 
 dir="$(dirname "$0")"
 
+source $dir/functions/thirdparty/retropie
+
 # Install Third-Party Applications
 function thirdparty {
 	eval `resize`
@@ -12,6 +14,7 @@ function thirdparty {
 		--ok-button "Install" \
 		--cancel-button "Go Back" \
 		$LINES $COLUMNS $(( $LINES - 12 )) \
+		'retropie'	'RetroPie' \
 		3>&1 1>&2 2>&3)
 	 
 	exitstatus=$?
