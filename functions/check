@@ -7,7 +7,6 @@ DEPS="$dir/data/dependencies.list"
 
 # Check if command failed, if true abort
 function check_fail {
-	EXITSTATUS=$1
 	if [[ $EXITSTATUS != 0 ]]; then
 		show_error "Something may have went wrong during the last command. Returning."
 		sleep 3s && main
@@ -30,6 +29,8 @@ function check_dependencies {
 		[Yy]* ) 
 			show_warning 'Requires root privileges'
 			sudo apt-get -y install $package
+			# Failure check
+			check_fail
 			show_success "Package '$package' installed. Proceeding."
 			;;
 		# Negative action
