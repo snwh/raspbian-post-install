@@ -2,8 +2,6 @@
 
 dir="$(dirname "$0")"
 
-source $dir/functions/third-party/dropbox
-
 # Install Third-Party Applications
 function thirdparty {
 	eval `resize`
