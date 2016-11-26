@@ -14,7 +14,6 @@ function purge {
 		show_info 'Removing unused pre-installed applications...'
 		show_warning 'Requires root privileges'
 		sudo apt-get remove -y --purge $(cat $PURGED)
-		show_success 'Done.'
 		# Done
 		show_success 'Done.'
 		whiptail --title "Finished" --msgbox "Your list of unwanted pre-installed applications have been removed." 8 78
