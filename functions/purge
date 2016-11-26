@@ -1,0 +1,24 @@
+#!/bin/bash
+
+dir="$(dirname "$0")"
+
+PURGED="$dir/data/purge.list"
+
+# Remove unused/unwanted packages that are listed in 'data/purge.list'
+function purge {
+	if (eval `resize` && whiptail \
+		--title "Remove Un-used Pre-installed Applications" \
+		--yesno "Current list of pre-installed applications to remove: \n\n$(cat $PURGED) \n\nAre you sure you want proceed?" \
+		$LINES $COLUMNS $(( $LINES - 12 )) \
+		--scrolltext ) then
+		show_info 'Removing unused pre-installed applications...'
+		show_warning 'Requires root privileges'
+		sudo apt remove -y --purge $(cat $PURGED)
+		# Done
+		show_success 'Done.'
+		whiptail --title "Finished" --msgbox "Your list of unwanted pre-installed applications have been removed." 8 78
+		cleanup
+	else
+		cleanup
+	fi
+}

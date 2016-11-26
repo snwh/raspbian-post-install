@@ -1,0 +1,38 @@
+#!/bin/bash
+
+dir="$(dirname "$0")"
+
+GSETTINGS="$dir/data/gsettings.list"
+
+# Automatically set preferred gsettings keys as outlined in the 'gsettings.list' file
+function preferences {
+	show_info 'Setting preferred application-specific & desktop settings...'
+	while IFS= read line
+	do
+		gsettings set $line
+	done < "$GSETTINGS"
+	# Done
+	show_success 'Done.'
+	whiptail --title "Finished" --msgbox "Settings changed successfully." 8 78
+	configure
+}
+
+# Configure System
+function configure {
+	eval `resize`
+	CONF=$(whiptail \
+		--notags \
+		--title "Configure System" \
+		--menu "\nWhat would you like to do?" \
+		--cancel-button "Go Back" \
+		$LINES $COLUMNS $(( $LINES - 12 )) \
+		preferences 'Set preferred application-specific & desktop settings' \
+		3>&1 1>&2 2>&3)
+	 
+	exitstatus=$?
+	if [ $exitstatus = 0 ]; then
+		$CONF
+	else
+		main
+	fi
+}

@@ -1,0 +1,25 @@
+#!/bin/bash
+
+dir="$(dirname "$0")"
+
+source $dir/functions/third-party/dropbox
+
+# Install Third-Party Applications
+function thirdparty {
+	eval `resize`
+	THIRDPARTY=$(whiptail \
+		--notags \
+		--title "Third-Party Installation" \
+		--menu "\nWhat third-party software would you like to install?" \
+		--ok-button "Install" \
+		--cancel-button "Go Back" \
+		$LINES $COLUMNS $(( $LINES - 12 )) \
+		3>&1 1>&2 2>&3)
+	 
+	exitstatus=$?
+	if [ $exitstatus = 0 ]; then
+		$THIRDPARTY
+	else
+		main
+	fi
+}
