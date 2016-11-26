@@ -2,7 +2,7 @@
 
 dir="$(dirname "$0")"
 
-source $dir/functions/thirdparty/retropie
+source $dir/functions/third-party/retropie
 
 # Install Third-Party Applications
 function thirdparty {
